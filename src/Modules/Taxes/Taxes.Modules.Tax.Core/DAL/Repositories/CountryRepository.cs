@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Taxes.Modules.Tax.Core.Domain.Entities;
 using Taxes.Modules.Tax.Core.Domain.Repositories;
+using Taxes.Shared.Abstractions.Kernel.Entites;
 
 namespace Taxes.Modules.Tax.Core.DAL.Repositories
 {
@@ -19,9 +19,6 @@ namespace Taxes.Modules.Tax.Core.DAL.Repositories
             _context = context;
             _countries = _context.Countries;
         }
-
-        public Task<Country> GetAsync(Guid id)
-            => _countries.SingleOrDefaultAsync(x => x.Id == id);
 
         public async Task AddAsync(Country country)
         {

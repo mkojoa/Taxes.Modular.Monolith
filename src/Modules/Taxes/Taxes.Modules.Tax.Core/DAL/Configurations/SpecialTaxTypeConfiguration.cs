@@ -14,8 +14,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<SpecialTaxType> builder)
         {
-
-
+            //builder.HasKey(x => x.Id);
+            //builder.HasIndex(ugs => new { ugs.Id, ugs.Name }).IsUnique();
         }
     }
 }

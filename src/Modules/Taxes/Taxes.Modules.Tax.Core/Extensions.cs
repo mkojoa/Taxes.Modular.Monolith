@@ -21,10 +21,9 @@ internal static class Extensions
     {
         return services
             .AddScoped<ICountryRepository, CountryRepository>()
-
-          .AddInitializer<TaxesInitializer>()
+            .AddInitializer<TaxesInitializer>()
             .AddSqlServer<TaxesDbContext>()
-           .AddOutbox<TaxesDbContext>()
+            .AddOutbox<TaxesDbContext>()
             .AddUnitOfWork<TaxesUnitOfWork>();
 
     }

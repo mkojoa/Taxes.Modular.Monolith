@@ -5,6 +5,7 @@ using Taxes.Shared.Infrastructure;
 using System;
 using System.Collections.Generic;
 using Taxes.Modules.Tax.Core.Domain.Entities;
+using Taxes.Shared.Abstractions.Kernel.Entites;
 
 namespace Taxes.Modules.Tax.Core.DAL;
 
@@ -31,6 +32,12 @@ internal sealed class TaxesInitializer : IInitializer
 
         }
 
+        if (!await _dbContext.Countries.AnyAsync())
+        {
+            await AddCountriesAsync();
+            seed = true;
+
+        }
         if (!await _dbContext.SavingsSchemeTypes.AnyAsync())
         {
             await AddSavingsSchemeTypesAsync();
@@ -42,9 +49,9 @@ internal sealed class TaxesInitializer : IInitializer
             await AddSpecialTaxTypesAsync();
             seed = true;
         }
-        if (!await _dbContext.TaxTypes.AnyAsync())
+        if (!await _dbContext.TaxReliefType.AnyAsync())
         {
-            await AddSpecialTaxTypesAsync();
+            await AddTaxReliefTypeAsync();
             seed = true;
         }
         if (seed)
@@ -55,56 +62,56 @@ internal sealed class TaxesInitializer : IInitializer
     {
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 1,
+            //Id = 1,
             Name = "Accommodation with furnishing",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 2,
+            //Id = 2,
             Name = "Accommodation only",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 3,
+            //Id = 3,
             Name = "Furnishing only",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 4,
+            //Id = 4,
             Name = "Shared Accommodation",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 5,
+            //Id = 5,
             Name = "Driver and vehicle with fuel",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 6,
+            //Id = 6,
             Name = "Vehicle with fuel",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 7,
+            //Id = 7,
             Name = "Vehicle only",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
         });
         await _dbContext.NonCashTypes.AddAsync(new NonCashType
         {
-            Id = 8,
+            //Id = 8,
             Name = "Fuel only",
             CountryCode = "GH",
             CreatedAt = DateTime.Now,
@@ -160,41 +167,51 @@ internal sealed class TaxesInitializer : IInitializer
         {
             new SpecialTaxType
             {
-                Id = 1,
-                Name = "Dependent Spouse or Dependent Children(up to 2)",
+                //Id = 1,
+                Name = "BNS",
                 CountryCode = "GH",
                 CreatedAt = DateTime.Now
             },
             new SpecialTaxType
             {
-                Id = 2,
-                Name = "Child Education",
-                CountryCode = "GH",
-                CreatedAt = DateTime.Now
-            },
-            new SpecialTaxType
-            {
-                Id = 3,
-                Name = "Aged Dependent",
-                CountryCode = "GH",
-                CreatedAt = DateTime.Now
-            },
-            new SpecialTaxType
-            {
-                Id = 4,
-                Name = "Training",
-                CountryCode = "GH",
-                CreatedAt = DateTime.Now
-            },
-            new SpecialTaxType
-            {
-                Id = 5,
-                Name = "Disabled",
+                //Id = 2,
+                Name = "OTS",
                 CountryCode = "GH",
                 CreatedAt = DateTime.Now
             }
         };
         await _dbContext.SpecialTaxTypes.AddRangeAsync(taxType);
+
+        _logger.LogInformation("Initialized SpecialTaxType.");
+    }
+
+    private async Task AddTaxReliefTypeAsync()
+    {
+        var taxType = new List<TaxReliefType>
+        {
+            new TaxReliefType
+            {
+                //Id = 1,
+                Name = "Covid Relief",
+                CountryCode = "GH",
+                CreatedAt = DateTime.Now
+            },
+            new TaxReliefType
+            {
+                //Id = 2,
+                Name = "MRG Type",
+                CountryCode = "GH",
+                CreatedAt = DateTime.Now
+            }
+        };
+        await _dbContext.TaxReliefType.AddRangeAsync(taxType);
+
+        _logger.LogInformation("Initialized SpecialTaxType.");
+    }
+
+    private async Task AddCountriesAsync()
+    {
+        await _dbContext.Countries.AddRangeAsync(GenericData.Countries);
 
         _logger.LogInformation("Initialized SpecialTaxType.");
     }
