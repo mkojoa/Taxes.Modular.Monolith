@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Taxes.Shared.Infrastructure;
 using Taxes.Shared.Infrastructure.Contracts;
@@ -21,18 +19,15 @@ internal static class Extensions
     {
         return services
             .AddScoped<ICountryRepository, CountryRepository>()
-
-          .AddInitializer<TaxesInitializer>()
+            .AddInitializer<TaxesInitializer>()
             .AddSqlServer<TaxesDbContext>()
-           .AddOutbox<TaxesDbContext>()
+            .AddOutbox<TaxesDbContext>()
             .AddUnitOfWork<TaxesUnitOfWork>();
-
     }
 
     public static void UseCore(this IApplicationBuilder app)
     {
         //app.UseContracts();
         //.Register<EmployeeCreatedContract>();
-
     }
 }
