@@ -1,0 +1,15 @@
+﻿using System;
+namespace Taxes.Shared.Abstractions.Kernel.Enums
+{
+    public enum BAS
+    {
+        VARYINGAMOUNT=1,
+        FLATAMOUNT=2,
+        PERCENTAGEOFBASICSALARY=3,
+        PERCENTAGEOFDAILYRATE=4,
+        PERCENTAGEOFHOURLYRATE=5,
+        PERCENTAGEOFGROSSSALARY=6,
+        PERCENTAGEOFANNUALSALARY=7,
+        PERCENTAGEOFTOTALCASHEMOLUMENT=8
+    }
+}

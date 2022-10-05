@@ -1,0 +1,1 @@
+﻿dotnet ef migrations add Taxes_v3 --startup-project ../../../../src/Bootstrapper/Taxes.Bootstrapper/ --context TaxesDbContext -o ./DAL/Migrations --verbose

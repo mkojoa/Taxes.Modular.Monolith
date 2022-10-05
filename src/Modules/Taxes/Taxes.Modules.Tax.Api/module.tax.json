@@ -1,0 +1,8 @@
+{
+  "tax": {
+    "module": {
+      "name": "Tax",
+      "enabled": true
+    }
+  }
+}

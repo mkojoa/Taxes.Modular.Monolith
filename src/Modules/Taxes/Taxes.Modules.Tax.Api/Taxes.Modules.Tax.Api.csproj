@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="module.tax.development.json" />
+	  <None Remove="module.tax.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="module.tax.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="module.tax.development.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Taxes.Modules.Tax.Core\Taxes.Modules.Tax.Core.csproj" />
+	</ItemGroup>
+
+</Project>
+	
+	
