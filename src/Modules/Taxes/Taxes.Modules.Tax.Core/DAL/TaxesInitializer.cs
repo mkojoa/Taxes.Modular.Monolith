@@ -54,6 +54,11 @@ internal sealed class TaxesInitializer : IInitializer
             await AddTaxReliefTypeAsync();
             seed = true;
         }
+        if (!await _dbContext.CalculationRules.AnyAsync())
+        {
+            await AddCalculationRulesAsync();
+            seed = true;
+        }
         if (seed)
             await _dbContext.SaveChangesAsync();
     }
@@ -205,6 +210,19 @@ internal sealed class TaxesInitializer : IInitializer
             }
         };
         await _dbContext.TaxReliefType.AddRangeAsync(taxType);
+
+        _logger.LogInformation("Initialized SpecialTaxType.");
+    }
+
+    private async Task AddCalculationRulesAsync()
+    {
+        var calculation = new List<CalculationRule>();
+
+        //foreach (var calculationRule in GenericData.GenericParameters)
+        //{
+        //    calculationRule.Type
+        //}
+        //await _dbContext.CalculationRules.AddRangeAsync();
 
         _logger.LogInformation("Initialized SpecialTaxType.");
     }

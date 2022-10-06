@@ -22,6 +22,7 @@ internal class TaxesDbContext : DbContext
     public DbSet<TaxRelief> TaxReliefs { get; set; } 
     public DbSet<TaxReliefType> TaxReliefType { get; set; }  
     public DbSet<TaxTable> TaxTables { get; set; }
+    public DbSet<CalculationRule> CalculationRules { get; set; } 
      
 
     public TaxesDbContext(DbContextOptions<TaxesDbContext> options) : base(options)
