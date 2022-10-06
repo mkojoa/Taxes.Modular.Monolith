@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Taxes.Modules.Tax.Core.DAL;
 
@@ -11,9 +12,10 @@ using Taxes.Modules.Tax.Core.DAL;
 namespace Taxes.Modules.Tax.Core.DAL.Migrations
 {
     [DbContext(typeof(TaxesDbContext))]
-    partial class TaxesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221006131654_Taxes_update_v1")]
+    partial class Taxes_update_v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,8 +102,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CalculationRuleId")
-                        .HasColumnType("int");
+                    b.Property<long?>("CalculationRule")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal>("Ceiling")
                         .HasColumnType("decimal(18,2)");
@@ -118,6 +120,9 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EndDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -130,8 +135,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("StartDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -139,12 +144,10 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CalculationRuleId");
 
                     b.HasIndex("CountryCode1");
 
@@ -682,12 +685,6 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.NonCash", b =>
                 {
-                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.CalculationRule", "CalculationRule")
-                        .WithMany()
-                        .HasForeignKey("CalculationRuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryCode1");
@@ -697,8 +694,6 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                         .HasForeignKey("NonCashTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CalculationRule");
 
                     b.Navigation("Country");
 

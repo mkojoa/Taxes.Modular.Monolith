@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +11,25 @@ using Taxes.Shared.Abstractions.Queries;
 
 namespace Taxes.Modules.Tax.Core.Queries.Handlers
 {
-    internal class GetCountriesHandler : IQueryHandler<GetCountries, IEnumerable<CountryDto>>
+    internal class GetCalculationRulesHandler : IQueryHandler<GetCalculationRules, IEnumerable<CalculationRuleDto>>
     {
         private readonly TaxesDbContext _dbContext;
 
-        public GetCountriesHandler(TaxesDbContext dbContext) 
+        public GetCalculationRulesHandler(TaxesDbContext dbContext) 
         {
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<CountryDto>> HandleAsync(GetCountries query, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CalculationRuleDto>> HandleAsync(GetCalculationRules query, CancellationToken cancellationToken = default)
         {
-            
-            var countries = await _dbContext.Countries
+            var countries = await _dbContext.CalculationRules
                 .AsNoTracking()
-                .Select(x => new CountryDto { 
+                .Select(x => new CalculationRuleDto { 
+                    Id = x.Id, 
                     Code = x.Code, 
                     Name = x.Name,
+                    Type = x.Type,
+                    Status = x.Status,
                 }).ToListAsync(cancellationToken);
 
             return countries;

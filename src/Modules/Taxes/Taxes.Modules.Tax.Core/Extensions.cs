@@ -19,11 +19,14 @@ internal static class Extensions
     {
         return services
             .AddScoped<ICountryRepository, CountryRepository>()
+            .AddScoped<ICalculationRepository, CalculationRepository>()
+            .AddScoped<INonCashRepository, NonCashRepository>()
+            .AddScoped<INonCashTypeRepository, NonCashTypeRepository>()
+
             .AddInitializer<TaxesInitializer>()
             .AddSqlServer<TaxesDbContext>()
             .AddOutbox<TaxesDbContext>()
             .AddUnitOfWork<TaxesUnitOfWork>();
-
     }
 
     public static void UseCore(this IApplicationBuilder app)
