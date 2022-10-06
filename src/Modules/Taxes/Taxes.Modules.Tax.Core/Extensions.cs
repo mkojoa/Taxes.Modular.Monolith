@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Taxes.Shared.Infrastructure;
 using Taxes.Shared.Infrastructure.Contracts;
@@ -32,6 +30,5 @@ internal static class Extensions
     {
         //app.UseContracts();
         //.Register<EmployeeCreatedContract>();
-
     }
 }
