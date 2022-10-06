@@ -14,7 +14,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<SavingsSchemeType> builder)
         {
-            builder.Property(x => x.SchemeCap).HasColumnType("decimal(18,2)");
+            //builder.Property(x => x.SchemeCap).HasColumnType("decimal(18,2)");
 
         }
     }

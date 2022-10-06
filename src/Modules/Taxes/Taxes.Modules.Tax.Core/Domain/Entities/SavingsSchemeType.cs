@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Taxes.Shared.Abstractions.Kernel.Entites;
 
 namespace Taxes.Modules.Tax.Core.Domain.Entities
 {
     internal class SavingsSchemeType
     {
+        [Key]
         public Guid Id { get; set; }
         public string CountryCode { get; set; }
         public Country Country { get; set; }

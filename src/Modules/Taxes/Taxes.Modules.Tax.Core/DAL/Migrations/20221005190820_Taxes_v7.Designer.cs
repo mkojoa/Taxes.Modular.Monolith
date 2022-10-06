@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Taxes.Modules.Tax.Core.DAL;
 
@@ -11,9 +12,10 @@ using Taxes.Modules.Tax.Core.DAL;
 namespace Taxes.Modules.Tax.Core.DAL.Migrations
 {
     [DbContext(typeof(TaxesDbContext))]
-    partial class TaxesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221005190820_Taxes_v7")]
+    partial class Taxes_v7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +24,35 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.Country", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CurrencyCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CurrencySymbol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries", "taxes");
+                });
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.LoanRule", b =>
                 {
@@ -32,8 +63,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -64,7 +95,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("LoanRules", "taxes");
                 });
@@ -87,8 +118,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -122,7 +153,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("NonCashTypeId");
 
@@ -169,8 +200,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -234,7 +265,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("SavingsSchemeTypeId");
 
@@ -253,8 +284,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -279,7 +310,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("SavingsSchemeTypes", "taxes");
                 });
@@ -293,8 +324,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
@@ -334,7 +365,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("SpecialTaxTypeId");
 
@@ -356,12 +387,16 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("SpecialTaxTypes", "taxes");
                 });
@@ -375,8 +410,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -401,7 +436,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("TaxTableId");
 
@@ -423,8 +458,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -461,7 +496,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("TaxMasters", "taxes");
                 });
@@ -484,8 +519,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -507,7 +542,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("TaxReliefTypeId");
 
@@ -529,9 +564,13 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("TaxReliefType", "taxes");
                 });
@@ -545,8 +584,8 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                     b.Property<string>("CountryCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CountryCode1")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -565,31 +604,11 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("TaxMasterId");
 
                     b.ToTable("TaxTables", "taxes");
-                });
-
-            modelBuilder.Entity("Taxes.Shared.Abstractions.Kernel.Entites.Country", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Demonym")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("Countries", "taxes");
                 });
 
             modelBuilder.Entity("Taxes.Shared.Infrastructure.Messaging.Outbox.InboxMessage", b =>
@@ -649,18 +668,18 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.LoanRule", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.NonCash", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.NonCashType", "NonCashType")
                         .WithMany()
@@ -675,9 +694,9 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.SavingsScheme", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.SavingsSchemeType", "SavingsSchemeType")
                         .WithMany()
@@ -692,18 +711,18 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.SavingsSchemeType", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.SpecialTax", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.SpecialTaxType", "SpecialTaxType")
                         .WithMany()
@@ -718,9 +737,9 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.TaxBandTable", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.TaxTable", "TaxTable")
                         .WithMany("TaxBandTable")
@@ -735,18 +754,18 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.TaxMaster", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.TaxRelief", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.TaxReliefType", "TaxReliefType")
                         .WithMany()
@@ -761,9 +780,9 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
             modelBuilder.Entity("Taxes.Modules.Tax.Core.Domain.Entities.TaxTable", b =>
                 {
-                    b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
+                    b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("Taxes.Modules.Tax.Core.Domain.Entities.TaxMaster", "TaxMaster")
                         .WithMany("TaxTable")

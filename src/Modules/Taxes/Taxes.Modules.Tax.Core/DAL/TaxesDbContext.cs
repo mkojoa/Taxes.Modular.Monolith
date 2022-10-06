@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Taxes.Shared.Abstractions.Kernel.Entites;
 using Taxes.Shared.Infrastructure.Messaging.Outbox;
 using Taxes.Modules.Tax.Core.Domain.Entities;
 
@@ -19,8 +20,8 @@ internal class TaxesDbContext : DbContext
     public DbSet<TaxBandTable> TaxBandTables { get; set; } 
     public DbSet<TaxMaster> TaxMasters { get; set; } 
     public DbSet<TaxRelief> TaxReliefs { get; set; } 
-    public DbSet<TaxTable> TaxTables { get; set; }  
-    public DbSet<TaxType> TaxTypes { get; set; }   
+    public DbSet<TaxReliefType> TaxReliefType { get; set; }  
+    public DbSet<TaxTable> TaxTables { get; set; }
      
 
     public TaxesDbContext(DbContextOptions<TaxesDbContext> options) : base(options)

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Taxes.Modules.Tax.Core.Domain.Entities;
+using Taxes.Shared.Abstractions.Kernel.Entites;
 
 namespace Taxes.Modules.Tax.Core.DAL.Configurations
 {
@@ -14,6 +14,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<Country> builder)
         {
+            builder.HasKey(x => x.Code);
 
             builder.Property(x => x.Code)
               .HasMaxLength(50)
@@ -23,6 +24,10 @@ namespace Taxes.Modules.Tax.Core.DAL.Configurations
             builder.Property(x => x.Name)
                 .HasMaxLength(100)
                 .HasConversion(x => x.Value, x => new Name(x));
+
+            builder.Property(x => x.Demonym)
+              .IsRequired()
+              .HasMaxLength(50);
         }
     }
 }

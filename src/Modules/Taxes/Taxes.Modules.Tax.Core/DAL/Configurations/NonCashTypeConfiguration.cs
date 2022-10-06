@@ -14,7 +14,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<NonCashType> builder)
         {
-
+            //builder.HasKey(x => x.Id);
 
         }
     }

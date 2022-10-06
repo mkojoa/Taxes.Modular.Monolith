@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Taxes.Shared.Abstractions.Kernel.Entites;
 
 namespace Taxes.Modules.Tax.Core.Domain.Entities
 {
@@ -13,8 +14,8 @@ namespace Taxes.Modules.Tax.Core.Domain.Entities
         public string CountryCode { get; set; }
         public Country Country { get; set; }
         public string Name { get; set; }
-        public TaxType TaxType { get; set; }
-        public int TaxTypeId { get; set; }
+        public TaxReliefType TaxReliefType { get; set; } 
+        public int TaxReliefTypeId { get; set; } 
         public decimal Amount { get; set; }
         public int CalcRule { get; set; }
         public string Notes { get; set; }

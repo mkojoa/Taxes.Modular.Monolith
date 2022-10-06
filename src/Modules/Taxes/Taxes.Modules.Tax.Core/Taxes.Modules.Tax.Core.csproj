@@ -8,13 +8,10 @@
     <Folder Include="Commands\" />
     <Folder Include="Commands\Handlers\" />
     <Folder Include="Domain\ValueObjects\" />
-    <Folder Include="DTO\" />
     <Folder Include="Events\" />
     <Folder Include="Events\External\" />
     <Folder Include="Events\External\Handlers\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Queries\" />
-    <Folder Include="Queries\Handlers" />
     <Folder Include="Services\" />
   </ItemGroup>
 	
