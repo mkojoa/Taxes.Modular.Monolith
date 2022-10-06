@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Taxes.Modules.Tax.Core.Domain.Entities;
 using Taxes.Shared.Abstractions.Kernel.Entites;
+using Taxes.Shared.Abstractions.Kernel.Enums;
 
 namespace Taxes.Modules.Tax.Core.DAL;
 
@@ -216,15 +217,20 @@ internal sealed class TaxesInitializer : IInitializer
 
     private async Task AddCalculationRulesAsync()
     {
-        var calculation = new List<CalculationRule>();
+        var calculation = new List<CalculationRule>
+        {
+            new CalculationRule { Id=(int)BAS.VARYINGAMOUNT, Code = "BAS01",Type = "BAS",  Name = "VARYING AMOUNT",  Status = true },
+            new CalculationRule { Id=(int)BAS.FLATAMOUNT, Code = "BAS02",Type = "BAS",  Name = "FLAT AMOUNT",  Status = true },
+            new CalculationRule { Id=(int)BAS.PERCENTAGEOFBASICSALARY, Code = "BAS03",Type = "BAS",  Name = "PERCENTAGE OF BASIC SALARY",  Status = true },
+            new CalculationRule { Id=(int)BAS.PERCENTAGEOFDAILYRATE, Code = "BAS04",Type = "BAS",  Name = "PERCENTAGE OF DAILY RATE",  Status = true },
+            new CalculationRule { Id=(int)BAS.PERCENTAGEOFHOURLYRATE, Code = "BAS05",Type = "BAS",  Name = "PERCENTAGE OF HOURLY RATE",  Status = true },
+            new CalculationRule { Id=(int)BAS.PERCENTAGEOFGROSSSALARY, Code = "BAS06",Type = "BAS",  Name = "PERCENTAGE OF GROSS SALARY",  Status = true },
+            new CalculationRule { Id=(int)BAS.PERCENTAGEOFANNUALSALARY, Code = "BAS07",Type = "BAS",  Name = "PERCENTAGE OF ANNUAL SALARY",  Status = true },
+            new CalculationRule { Id=(int)BAS.PERCENTAGEOFTOTALCASHEMOLUMENT, Code = "BAS08",Type = "BAS",  Name = "PERCENTAGE OF TOTAL CASH EMOLUMENT",  Status = true },       
+        };
+        await _dbContext.CalculationRules.AddRangeAsync(calculation);
 
-        //foreach (var calculationRule in GenericData.GenericParameters)
-        //{
-        //    calculationRule.Type
-        //}
-        //await _dbContext.CalculationRules.AddRangeAsync();
-
-        _logger.LogInformation("Initialized SpecialTaxType.");
+        _logger.LogInformation("Initialized calculation rule.");
     }
 
     private async Task AddCountriesAsync()
