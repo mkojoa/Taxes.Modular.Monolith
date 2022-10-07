@@ -6,7 +6,6 @@ namespace Taxes.Modules.Tax.Core.Commands;
 
 internal record CreateSavingScheme
     (
-        Guid Id,
         string Code,
         string CountryCode,
         string Name,

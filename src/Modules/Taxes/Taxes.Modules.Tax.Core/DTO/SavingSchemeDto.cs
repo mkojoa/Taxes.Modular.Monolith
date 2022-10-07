@@ -10,9 +10,9 @@ namespace Taxes.Modules.Tax.Core.DTO
     {
         public Guid Id { get; set; } 
         public string Code { get; set; }
-        public string CountryCode { get; set; }
         public string Name { get; set; }
         public CalculationRuleDto CalculationRule { get; set; }
+        public CountryDto Country { get; set; }
         public int PercentageBasis { get; set; }
         public decimal UpperLimit { get; set; }
         public decimal LowerLimit { get; set; }

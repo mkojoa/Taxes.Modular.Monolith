@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Taxes.Modules.Tax.Core.Domain.Entities;
@@ -64,7 +65,7 @@ namespace Taxes.Modules.Tax.Core.Commands.Handlers
             }
 
             var create = SavingsScheme.CreateSavingsScheme(
-                command.Id, command.Code,  country ,  command.Name ,  calculationRule ,
+                Guid.NewGuid(), command.Code,  country ,  command.Name ,  calculationRule ,
                 command.PercentageBasis ,  command.UpperLimit ,  command.LowerLimit ,
                 command.Employee ,  command.Employer ,  command.TaxRebateEmpContrib ,  command.TaxDeductible ,
                 command.TaxEmployerContrib ,  command.TransSegment ,  command.EmployeeGLAcc , command.EmployerGLAcc ,

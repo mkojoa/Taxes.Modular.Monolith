@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Taxes.Modules.Tax.Core.DAL;
 
@@ -11,9 +12,10 @@ using Taxes.Modules.Tax.Core.DAL;
 namespace Taxes.Modules.Tax.Core.DAL.Migrations
 {
     [DbContext(typeof(TaxesDbContext))]
-    partial class TaxesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221007124947_Taxes_rollback_v5")]
+    partial class Taxes_rollback_v5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +57,9 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountryCode1")
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -83,7 +88,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryCode");
+                    b.HasIndex("CountryCode1");
 
                     b.ToTable("LoanRules", "taxes");
                 });
@@ -665,7 +670,7 @@ namespace Taxes.Modules.Tax.Core.DAL.Migrations
                 {
                     b.HasOne("Taxes.Shared.Abstractions.Kernel.Entites.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryCode");
+                        .HasForeignKey("CountryCode1");
 
                     b.Navigation("Country");
                 });

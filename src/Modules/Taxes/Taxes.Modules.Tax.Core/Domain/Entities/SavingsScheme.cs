@@ -50,6 +50,7 @@ namespace Taxes.Modules.Tax.Core.Domain.Entities
             Id   = id;
             Code   = code;
             Country   = country;
+            CountryCode = country.Code;
             Name   = name;
             CalculationRule   = calculationRule;
             PercentageBasis   = percentageBasis;

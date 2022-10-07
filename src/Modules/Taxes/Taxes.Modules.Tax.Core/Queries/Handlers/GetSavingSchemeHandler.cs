@@ -30,7 +30,13 @@ namespace Taxes.Modules.Tax.Core.Queries.Handlers
                     Name = x.Name,
                     CalculationRule = new CalculationRuleDto{
                         Id = x.CalculationRule.Id,
+                        Type = x.CalculationRule.Type,
+                        Code = x.CalculationRule.Code,
                         Name = x.CalculationRule.Name
+                    },
+                    Country = new CountryDto {
+                        Code = x.Country.Code,
+                        Name = x.Country.Name, 
                     },
                     PercentageBasis = x.PercentageBasis,
                     UpperLimit = x.UpperLimit,
@@ -44,7 +50,6 @@ namespace Taxes.Modules.Tax.Core.Queries.Handlers
                     EmployeeGLAcc = x.EmployeeGLAcc,
                     EmployerGLAcc = x.EmployerGLAcc,
                     EmployerPayable = x.EmployerPayable,
-                    CountryCode = x.CountryCode,
                     Status = x.Status,
                     SavingsSchemeType = new SavingSchemeTypeDto{
                         Id = x.SavingsSchemeType.Id,

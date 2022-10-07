@@ -1,23 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Taxes.Shared.Abstractions.Kernel.Entites;
 
-namespace Taxes.Modules.Tax.Core.Domain.Entities
+namespace Taxes.Modules.Tax.Core.DTO
 {
-    internal class LoanRule
-    { 
+    internal class LoanDto
+    {
         public Guid Id { get; set; }
-        public Country Country { get; set; } 
+        public CountryDto Country { get; set; } 
         public string Name { get; set; }
         public decimal StatutoryRate { get; set; }
         public decimal GearingRatio { get; set; }
         public DateTime StartDate { get; set; }
         public bool Status { get; set; } 
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public Guid UserId { get; set; } 
     }
 }
