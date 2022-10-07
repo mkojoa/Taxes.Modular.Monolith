@@ -4,6 +4,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Taxes.Modules.Tax.Core.Commands;
 using Taxes.Modules.Tax.Core.DTO;
 using Taxes.Modules.Tax.Core.Queries;
 using Taxes.Shared.Abstractions.Contexts;
@@ -27,19 +28,19 @@ namespace Taxes.Modules.Tax.Api.Controllers
 
         }
 
-        // [HttpPost]
-        // [SwaggerOperation("Create Loans")]
-        // [ProducesResponseType(StatusCodes.Status204NoContent)]
-        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        // public async Task<ActionResult> Post(CreateLoan command)
-        // {
-        //     command.Bind(x => x.UserId, _context.Identity.Id);
-        //     await _dispatcher.SendAsync(command);
-        //     return NoContent();
-        // }
+        [HttpPost]
+        [SwaggerOperation("Create Loans rule")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Post(CreateLoanRule command)
+        {
+            //command.Bind(x => x.UserId, _context.Identity.Id);
+            await _dispatcher.SendAsync(command);
+            return NoContent();
+        }
 
         [HttpGet("{countryCode}")]
-        [SwaggerOperation("Get loan by country")]
+        [SwaggerOperation("Get loan rule by country")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -49,7 +50,7 @@ namespace Taxes.Modules.Tax.Api.Controllers
 
 
         [HttpGet("{id:guid}")]
-        [SwaggerOperation("Get loan")]
+        [SwaggerOperation("Get loan rule")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -58,7 +59,7 @@ namespace Taxes.Modules.Tax.Api.Controllers
            => OkOrNotFound(await _dispatcher.QueryAsync(new GetLoan { Id = id }));
 
         [HttpGet("")]
-        [SwaggerOperation("browse loan")]
+        [SwaggerOperation("browse loan rule")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
