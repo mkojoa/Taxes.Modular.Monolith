@@ -22,6 +22,8 @@ internal static class Extensions
             .AddScoped<ICalculationRepository, CalculationRepository>()
             .AddScoped<INonCashRepository, NonCashRepository>()
             .AddScoped<INonCashTypeRepository, NonCashTypeRepository>()
+            .AddScoped<ISavingSchemeRepository, SavingSchemeRepository>()
+            .AddScoped<ISavingSchemeTypeRepository, SavingSchemeTypeRepository>()
 
             .AddInitializer<TaxesInitializer>()
             .AddSqlServer<TaxesDbContext>()

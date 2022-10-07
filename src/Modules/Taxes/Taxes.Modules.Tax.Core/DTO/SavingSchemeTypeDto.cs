@@ -11,5 +11,7 @@ namespace Taxes.Modules.Tax.Core.DTO
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string CountryCode { get; set; }
+        public decimal SchemeCap { get; set; }
+        public int StatutoryFund { get; set; }
     }
 }

@@ -28,7 +28,9 @@ namespace Taxes.Modules.Tax.Core.Queries.Handlers
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    CountryCode = x.CountryCode
+                    CountryCode = x.CountryCode,
+                    SchemeCap = x.SchemeCap,
+                    StatutoryFund = x.StatutoryFund
                 }).ToListAsync(cancellationToken);
 
             return repo;
