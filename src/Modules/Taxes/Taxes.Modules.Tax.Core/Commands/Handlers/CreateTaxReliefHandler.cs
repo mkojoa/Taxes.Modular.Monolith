@@ -14,40 +14,40 @@ using Taxes.Shared.Abstractions.Time;
 
 namespace Taxes.Modules.Tax.Core.Commands.Handlers
 {
-    internal class CreateNonCashHandler : ICommandHandler<CreateNonCash>
+    internal class CreateTaxReliefHandler : ICommandHandler<CreateNonCash>
     {
-        private readonly INonCashRepository _nonCashRepository;
-        private readonly INonCashTypeRepository _nonCashTypeRepository;
+        private readonly ITaxReliefRepository _taxReliefRepository;
+        private readonly ITaxReliefTypeRepository _taxReliefTypeRepository;
         private readonly ICountryRepository  _countryRepository;
         private readonly ICalculationRepository  _calculationRuleRepository ;
         private readonly IClock _clock;
-        private readonly ILogger<CreateNonCashHandler> _logger;
+        private readonly ILogger<CreateTaxReliefHandler> _logger;
 
-        public CreateNonCashHandler(
-            INonCashRepository nonCashRepository ,
-            INonCashTypeRepository nonCashTypeRepository,
+        public CreateTaxReliefHandler(
+            ITaxReliefRepository taxReliefRepository ,
+            ITaxReliefTypeRepository taxReliefTypeRepository,
             ICountryRepository  countryRepository,
             ICalculationRepository  calculationRuleRepository,
             IClock clock,
-            ILogger<CreateNonCashHandler> logger
+            ILogger<CreateTaxReliefHandler> logger
             )
         {
-            _nonCashRepository = nonCashRepository;
-            _nonCashTypeRepository = nonCashTypeRepository;
+            _taxReliefRepository = taxReliefRepository;
+            _taxReliefTypeRepository = taxReliefTypeRepository;
             _countryRepository = countryRepository;
             _calculationRuleRepository = calculationRuleRepository;
             _clock = clock;
             _logger = logger;
         }
 
-// non cash added
+
 
         public async Task HandleAsync(CreateNonCash command, CancellationToken cancellationToken = default)
         {
-            var nonCash = await _nonCashRepository.GetAsync(command.Code);
-            if (nonCash is not null)
-            { 
-                throw new NonCashAlreadyExistException(command.Code);
+            var taxRelief = await _taxReliefRepository.GetAsync(command.Code);
+            if (taxRelief is not null)
+            {
+                throw new TaxReliefAlreadyExistException(command.Code);
             }
 
             var country = await _countryRepository.GetAsync(command.CountryCode);
@@ -63,21 +63,21 @@ namespace Taxes.Modules.Tax.Core.Commands.Handlers
                 throw new CalculationRuleNotFoundException(command.CalculationRuleId);
             }
 
-            var nonCashType = await _nonCashTypeRepository.GetAsync(command.NonCashTypeId);
-            if (nonCashType is null)
+            var taxReliefType = await _taxReliefTypeRepository.GetAsync(command.NonCashTypeId);
+            if (taxReliefType is null)
             {
-                throw new NonCashNotTypeFoundException(command.NonCashTypeId);
+                throw new TaxReliefTypeNotFoundException(command.NonCashTypeId);
             }
 
-            var create = NonCash.CreateNonCash(
-                command.CountryCode ,country, command.Code ,
-                command.Name ,command.Notes ,calculationRule ,command.Rate ,
-                command.Ceiling ,command.Status ,command.StartDate ,_clock.CurrentDate(), 
-                command.UserId ,nonCashType
+            var create = TaxRelief.CreateTaxRelief(
+                // command.CountryCode ,country, command.Code ,
+                // command.Name ,command.Notes ,calculationRule ,command.Rate ,
+                // command.Ceiling ,command.Status ,command.StartDate ,_clock.CurrentDate(), 
+                // command.UserId ,nonCashType
             );
 
-            await _nonCashRepository.AddAsync(create);
-            _logger.LogInformation(message: $"NonCash with ID: '{create.Id}' was created.");
+            await _taxReliefRepository.AddAsync(create);
+            _logger.LogInformation(message: $"Tax Relief with ID: '{create.Id}' was created.");
         }
     }
 }

@@ -9,19 +9,19 @@ using Taxes.Shared.Abstractions.Queries;
 
 namespace Taxes.Modules.Tax.Core.Queries.Handlers
 {
-    internal class GetTaxReliefsHandler : IQueryHandler<GetTaxReliefs, IEnumerable<TaxReliefDto>>
+    internal class GetTaxReliefHandler : IQueryHandler<GetTaxRelief, TaxReliefDto>
     {
         private readonly TaxesDbContext _dbContext;
 
-        public GetTaxReliefsHandler(TaxesDbContext dbContext)
+        public GetTaxReliefHandler(TaxesDbContext dbContext)
         {
             _dbContext = dbContext; 
         }
 
-        public async Task<IEnumerable<TaxReliefDto>> HandleAsync(GetTaxReliefs query, CancellationToken cancellationToken = default)
+        public async Task<TaxReliefDto> HandleAsync(GetTaxRelief query, CancellationToken cancellationToken = default)
         {
             var repo = await _dbContext.TaxReliefs
-                .Where(x => x.Country.Code == query.CountryCode)
+                .Where(x => x.Id == query.Id)
                 .AsNoTracking()
                 .Select(x => new TaxReliefDto
                 {
@@ -47,7 +47,7 @@ namespace Taxes.Modules.Tax.Core.Queries.Handlers
                         Name = x.TaxReliefType.Name,
                         CountryCode = x.TaxReliefType.CountryCode
                     }
-                }).ToListAsync(cancellationToken);
+                }).SingleOrDefaultAsync(cancellationToken);
 
             return repo;
         }
