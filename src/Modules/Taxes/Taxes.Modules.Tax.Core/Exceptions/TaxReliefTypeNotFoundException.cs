@@ -16,15 +16,3 @@ internal class TaxReliefTypeNotFoundException : TaxesException
     }
 
 }
-
-internal class NonCashNotTypeFoundException : TaxesException
-{
-    public int Id { get; }
-
-    public NonCashNotTypeFoundException(int id) 
-    : base($"Non Cash with id: '{id}' was not found.")
-    {
-        Id = id;
-    }
-
-}

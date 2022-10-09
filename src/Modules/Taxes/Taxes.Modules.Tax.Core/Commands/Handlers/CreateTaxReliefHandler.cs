@@ -14,7 +14,7 @@ using Taxes.Shared.Abstractions.Time;
 
 namespace Taxes.Modules.Tax.Core.Commands.Handlers
 {
-    internal class CreateTaxReliefHandler : ICommandHandler<CreateNonCash>
+    internal class CreateTaxReliefHandler : ICommandHandler<CreateTaxRelief>
     {
         private readonly ITaxReliefRepository _taxReliefRepository;
         private readonly ITaxReliefTypeRepository _taxReliefTypeRepository;
@@ -42,7 +42,7 @@ namespace Taxes.Modules.Tax.Core.Commands.Handlers
 
 
 
-        public async Task HandleAsync(CreateNonCash command, CancellationToken cancellationToken = default)
+        public async Task HandleAsync(CreateTaxRelief command, CancellationToken cancellationToken = default)
         {
             var taxRelief = await _taxReliefRepository.GetAsync(command.Code);
             if (taxRelief is not null)
@@ -63,17 +63,16 @@ namespace Taxes.Modules.Tax.Core.Commands.Handlers
                 throw new CalculationRuleNotFoundException(command.CalculationRuleId);
             }
 
-            var taxReliefType = await _taxReliefTypeRepository.GetAsync(command.NonCashTypeId);
+            var taxReliefType = await _taxReliefTypeRepository.GetAsync(command.TaxReliefTypeId);
             if (taxReliefType is null)
             {
-                throw new TaxReliefTypeNotFoundException(command.NonCashTypeId);
+                throw new TaxReliefTypeNotFoundException(command.TaxReliefTypeId);
             }
 
             var create = TaxRelief.CreateTaxRelief(
-                // command.CountryCode ,country, command.Code ,
-                // command.Name ,command.Notes ,calculationRule ,command.Rate ,
-                // command.Ceiling ,command.Status ,command.StartDate ,_clock.CurrentDate(), 
-                // command.UserId ,nonCashType
+                Guid.NewGuid(), command.Code, country, command.Name, taxReliefType,
+                command.Amount, calculationRule, command.Notes, command.Status,
+                _clock.CurrentDate(), command.UserId
             );
 
             await _taxReliefRepository.AddAsync(create);
